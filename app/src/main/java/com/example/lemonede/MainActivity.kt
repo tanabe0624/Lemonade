@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,8 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lemonede.ui.theme.LemonedeTheme
-//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +51,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun lemonadeApp(){
-
+    makeLemonade()
 }
 
 @Composable
@@ -96,11 +94,34 @@ fun makeLemonade(modifier: Modifier = Modifier){
                     3 -> R.drawable.lemon_drink
                     else -> R.drawable.lemon_restart
                 }
-                Image(painter = painterResource(id = R.drawable.lemon_tree),
-                    contentDescription = stringResource(id = R.string.lemon_tree_content_description))
-                Spacer(modifier = Modifier.height(16.dp))
+
+                var contentDescription = when(result){
+                    1 -> R.string.lemon_tree_content_description
+                    2 -> R.string.lemon_content_description
+                    3 -> R.string.lemonade_content_description
+                    else -> R.string.glass_content_description
+                }
+
+                var stringResource = when(result){
+                    1 -> R.string.Select_lemon
+                    2 -> R.string.Tap_lemon
+                    3 -> R.string.Drink_lemonade
+                    else -> R.string.Start_again
+                }
+
+                Button(onClick = { if(result < 4){
+                    result++
+                }else {
+                    result = 1
+                }
+                }) {
+                    Image(painter = painterResource(id = imageResource),
+                        contentDescription = stringResource(id = contentDescription))
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
                 Text(
-                    text = stringResource(id = R.string.Select_lemon),
+                    text = stringResource(id = stringResource),
                     fontSize = 18.sp
                 )
             }
